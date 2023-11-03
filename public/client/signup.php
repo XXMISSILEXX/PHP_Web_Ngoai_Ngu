@@ -1,3 +1,42 @@
+<?php
+require_once(__DIR__ . "/../../configs/config.php");
+require_once(__DIR__ . "/../../configs/function.php");
+require_once(__DIR__ . "/../../vendor/google-api/vendor/autoload.php");
+
+$title = 'Đăng ký tài khoản | ' . $Database->site("TenWeb");
+$META_TITLE = "5Fs Group - Đăng ký tài khoản";
+$META_IMAGE = "https://i.imgur.com/sIxDQqF.png";
+$META_DESCRIPTION = "5Fs Group - Đăng ký tài khoản";
+$META_SITE = BASE_URL("Auth/DangKy");
+
+require_once(__DIR__ . "/../../public/client/header.php");
+if (isset($_SESSION["account"])) {
+    return die('<script type="text/javascript">
+        setTimeout(function(){ location.href = "' . BASE_URL('') . '" }, 0);
+        </script>
+        ');
+}
+
+// Login with Google
+$client = new Google_Client();
+$client->setClientId(GOOGLE_APP_ID);
+$client->setClientSecret(GOOGLE_APP_SECRET);
+$client->setRedirectUri(GOOGLE_APP_CALLBACK_URL);
+$client->addScope("email");
+$client->addScope("profile");
+
+// Login with Facebook
+$fb = new Facebook\Facebook([
+    'app_id' => FACEBOOK_APP_ID,
+    'app_secret' => FACEBOOK_APP_SECRET,
+    'default_graph_version' => 'v2.5',
+]);
+$helper = $fb->getRedirectLoginHelper();
+$permissions = ['email']; // optional
+$loginFacebookUrl = $helper->getLoginUrl(FACEBOOK_APP_CALLBACK_URL, $permissions);
+
+
+?>
 <style>
     <?= include_once(__DIR__ . "/../../assets/css/login.css");
     ?><?= include_once(__DIR__ . "/../../assets/css/main.css");
