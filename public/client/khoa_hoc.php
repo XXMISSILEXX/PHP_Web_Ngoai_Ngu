@@ -1,26 +1,17 @@
 <?php
-require_once(__DIR__ . "/../../configs/config.php");
-require_once(__DIR__ . "/../../configs/function.php");
 $title = 'Danh sách khóa học | ' . $Database->site("TenWeb") . '';
 $locationPage = 'khoahoc';
-$META_TITLE = "5Fs Group - Danh sách khóa học";
 $META_IMAGE = "https://i.imgur.com/WlasPkc.png";
-$META_DESCRIPTION = "5Fs Group - Danh sách khóa học";
 $META_SITE = BASE_URL("Page/KhoaHoc");
-require_once(__DIR__ . "/../../public/client/header.php");
-checkLogin();
 ?>
 <style>
-    <?= include_once(__DIR__ . "/../../assets/css/course_page.css");
-    ?>
+   
 </style>
 
 <div class="grid">
     <div class="row main-page">
         <div class="nav-container">
-            <?php
-            include_once(__DIR__ . "/../../public/client/navigation.php");
-            ?>
+           
         </div>
         <div class="main_content-container">
             <div class="list-course">
@@ -109,9 +100,3 @@ checkLogin();
             }
             $(document).ready(function() {});
         </script>
-        <?php
-        include_once(__DIR__ . "/../../public/client/menu_right.php");
-        include_once(__DIR__ . "/../../public/client/navigation_mobile.php");
-        ?>
-        <?php
-        require_once(__DIR__ . "/../../public/client/footer.php"); ?>
