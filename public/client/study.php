@@ -1,3 +1,44 @@
+<?php
+require_once(__DIR__ . "/../../configs/config.php");
+require_once(__DIR__ . "/../../configs/function.php");
+$title = 'Học từ mới | ' . $Database->site("TenWeb") . '';
+$locationPage = 'home_page';
+require_once(__DIR__ . "/../../public/client/header_hoctap.php");
+
+checkLogin();
+if (isset($_GET['maKhoaHoc']) && isset($_GET['maBaiHoc'])) {
+    $checkDangKyKhoaHoc = $Database->get_row("SELECT * FROM dangkykhoahoc WHERE `TaiKhoan` = '" . $_SESSION["account"] . "' AND `MaKhoaHoc` = '" . check_string($_GET['maKhoaHoc']) . "' ");
+
+    $khoaHoc = $Database->get_row("SELECT * FROM `khoahoc` WHERE `MaKhoaHoc` = '" . check_string($_GET['maKhoaHoc']) . "'  ");
+    $baiHoc = $Database->get_row("SELECT * FROM `baihoc` WHERE `MaKhoaHoc` = '" . check_string($_GET['maKhoaHoc']) . "' AND `MaBaiHoc` = '" . check_string($_GET['maBaiHoc']) . "'");
+
+    if ($khoaHoc <= 0 || $baiHoc <= 0 || $checkDangKyKhoaHoc <= 0) {
+        return die('<script type="text/javascript">
+    setTimeout(function(){ location.href = "' . BASE_URL('') . '" }, 0);
+    </script>
+    ');
+    }
+}
+
+
+// Tao moi database hoc tu moi
+$token = randomString('0123456789QWERTYUIOPASDGHJKLZXCVBNM', '20');
+$createDatabase = $Database->insert("hoctumoi", [
+    'TaiKhoan' => $_SESSION["account"],
+    'Token' => $token,
+]);
+if ($createDatabase) {
+    $_SESSION["thongTinTokenStudy"] = $token;
+} else {
+    msg_error2('Có lỗi xảy ra trong quá trình khởi tạo.');
+}
+
+
+?>
+<style>
+    <?= include_once(__DIR__ . "/../../assets/css/study_new_word.css");
+    ?>
+</style>
 <div class="header">
     <div class="grid wide">
         <div class="header_wrap">
@@ -131,3 +172,5 @@
         tiepTuc();
     });
 </script>
+<?php
+require_once(__DIR__ . "/../../public/client/footer.php"); ?>
