@@ -16,3 +16,5 @@ modalStudy.addEventListener('click', function() {
 modalStudycontainer.addEventListener('click', function(event) {
     event.stopPropagation();
 })
+
+////
