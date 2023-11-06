@@ -1,5 +1,5 @@
 <?php
-
+//
 $config = [
     'project' => 'hocngoaingu',
     'url' => BASE_URL,
