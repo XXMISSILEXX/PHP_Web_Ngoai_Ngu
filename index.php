@@ -17,11 +17,6 @@
         <div class="slider-wrap">
             <div class="slider__content">
                 <h1 class="slider__content-heading">Học
-
-                    <!-- <div style="line-height:0" class="headline-icon"><img src="https://i.imgur.com/HE3eJGR.png" loading="lazy" class="LazyImage__Img-sc-12k26ab-0 eVDYkS"></div>
-                    <div style="line-height:0;top: -40px;right: -40px;" class="headline-icon"><img src="https://i.imgur.com/GF5UgJs.png" loading="lazy" class="LazyImage__Img-sc-12k26ab-0 eVDYkS"></div>
-                    <div style="line-height:0; top: -40px;right: -40px;" class="headline-icon"><img src="https://i.imgur.com/fmKnI8E.png" loading="lazy" class="LazyImage__Img-sc-12k26ab-0 eVDYkS"></div> -->
-
                     <span class="slider__content-heading--color">ngoại ngữ</span>
                     và cải thiện kĩ năng của bản thân bạn
                 </h1>
