@@ -26,7 +26,7 @@ include_once __DIR__ . "/../../public/client/navigation.php";
             <div class="my-course">
                 <div class="page__title">Khóa học của tôi:</div>
                 <?php
-
+/**/
 foreach ($Database->get_list(" SELECT * FROM dangkykhoahoc INNER JOIN khoahoc ON dangkykhoahoc.MaKhoaHoc = khoahoc.MaKhoaHoc AND dangkykhoahoc.TaiKhoan = '" . $_SESSION['account'] . "' and khoahoc.TrangThaiKhoaHoc = 1  ") as $row) {
     $soTuDaHoc = $Database->num_rows("SELECT * FROM hoctuvung A inner join tuvung B on A.MaTuVung = B.MaTuVung and A.MaKhoaHoc = B.MaKhoaHoc and A.MaBaiHoc = B.MaBaiHoc and A.TaiKhoan = '" . $_SESSION["account"] . "' AND A.MaKhoaHoc = '" . $row["MaKhoaHoc"] . "' and B.TrangThaiTuVung = 1 ");
     $tongSoTuVung = $Database->num_rows("SELECT * FROM tuvung WHERE MaKhoaHoc = '" . $row["MaKhoaHoc"] . "' and TrangThaiTuVung = 1 ");
