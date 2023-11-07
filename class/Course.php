@@ -1,7 +1,7 @@
 <?php
 class Course extends Database
 {
-
+/**/
     public function xoaTatCaTuVungDaHoc($agr)
     {
         $result =  $this->query("delete from hoctuvung where TaiKhoan = '" . $agr["TaiKhoan"] . "' and MaKhoaHoc = '" . $agr["MaKhoaHoc"] . "' ");
