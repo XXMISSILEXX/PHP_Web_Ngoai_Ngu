@@ -10,7 +10,7 @@
  * @link        http://www.codexworld.com 
  * @license        http://www.codexworld.com/license 
  * @version        2.0 
- */
+ *//**/
 class Pagination
 {
     var $typeAjax = '';
