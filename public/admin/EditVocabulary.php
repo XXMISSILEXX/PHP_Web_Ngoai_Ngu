@@ -17,7 +17,6 @@ if (isset($_GET['maBaiHoc']) && isset($_GET['maKhoaHoc']) && isset($_GET['maTuVu
 ?>
 
 
-
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -114,21 +113,12 @@ if (isset($_GET['maBaiHoc']) && isset($_GET['maKhoaHoc']) && isset($_GET['maTuVu
                                 <div class="col-sm-10">
                                     <select class="custom-select" name="trangThaiTuVung">
                                         <option value="<?=$row['TrangThaiTuVung'];?>">
-                                            <?php
-if ($row['TrangThaiTuVung'] == "1") {
-    echo 'Hoạt động';
-}
-if ($row['TrangThaiTuVung'] == "0") {
-    echo 'Banned';
-}
-?>
                                         </option>
                                         <option value="1">Hoạt động</option>
                                         <option value="0">Banned</option>
                                     </select>
                                 </div>
                             </div>
-
 
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Ngày tạo</label>
@@ -169,15 +159,7 @@ if ($row['TrangThaiTuVung'] == "0") {
                                                 <?=$row["MaKhoaHoc"]?>
 
                                             </option>
-                                            <?php
-foreach ($Database->get_list(" select * from khoahoc order by MaKhoaHoc asc") as $optionKhoaHoc) {
-
-    ?>
-                                                <option value="<?=$optionKhoaHoc["MaKhoaHoc"]?>"><?=$optionKhoaHoc["MaKhoaHoc"]?></option>
-                                            <?php
-}
-?>
-
+                                           
                                         </select>
                                     </div>
                                 </div>
@@ -191,15 +173,6 @@ foreach ($Database->get_list(" select * from khoahoc order by MaKhoaHoc asc") as
                                                 <?=$row["MaBaiHoc"]?>
 
                                             </option>
-                                            <?php
-foreach ($Database->get_list(" select * from baihoc where MaKhoaHoc = '" . $row['MaKhoaHoc'] . "'  order by MaBaiHoc asc") as $optionBaiHoc) {
-
-    ?>
-                                                <option value="<?=$optionBaiHoc["MaBaiHoc"]?>"><?=$optionBaiHoc["MaBaiHoc"]?></option>
-                                            <?php
-}
-?>
-
                                         </select>
                                     </div>
                                 </div>
