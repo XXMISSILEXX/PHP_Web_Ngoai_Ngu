@@ -21,6 +21,12 @@ $chat_room_id = $_GET['chat_room_id'];
 
 
 
+// Retrieve the data in ascending order by the id column
+$results = $Database->get_list("SELECT * FROM message_chatbot_room where MaRoom = '" . $chat_room_id . "' ORDER BY ThoiGian ASC");
+$history = array();
+foreach ($results as $item) {
+    $history[] = [ROLE => $item["Role"], CONTENT => $item['NoiDung']];
+}
 
 // get latest message of user
 $results = $Database->get_row("SELECT * FROM message_chatbot_room where MaRoom = '" . $chat_room_id . "' and Role = 'user' ORDER BY ThoiGian desc limit 1");
