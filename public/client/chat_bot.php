@@ -5,7 +5,7 @@ $title = 'Trợ giúp từ ChatBot | ' . $Database->site('TenWeb') . '';
 $locationPage = 'chatbot_page';
 require_once(__DIR__ . "/../../public/client/header.php");
 
-checkLogin();
+
 $checkChatBotRoom = $Database->get_row("select * from chatbot_room where TaiKhoan = '" . $_SESSION["account"] . "' ");
 $getTaiKhoan = $Database->get_row("select * from nguoidung where TaiKhoan = '" . $_SESSION["account"] . "'");
 ?>
