@@ -7,16 +7,7 @@ $META_IMAGE = "https://i.imgur.com/vIoahub.png";
 $META_SITE = BASE_URL("Page/KhoaHoc");
 require_once(__DIR__ . "/../../public/client/header.php");
 
-checkLogin();
-if (isset($_GET['maKhoaHoc'])) {
-    $khoaHoc = $Database->get_row("SELECT * FROM `khoahoc` WHERE `MaKhoaHoc` = '" . check_string($_GET['maKhoaHoc']) . "' and TrangThaiKhoaHoc = 1  ");
-    if ($khoaHoc <= 0) {
-        return die('<script type="text/javascript">
-    setTimeout(function(){ location.href = "' . BASE_URL('Page/KhoaHoc') . '" }, 0);
-    </script>
-    ');
-    }
-}
+
 $checkDangKy = $Database->get_row("SELECT * FROM dangkykhoahoc WHERE `TaiKhoan` = '" . $_SESSION["account"] . "' AND `MaKhoaHoc` = '" . $khoaHoc["MaKhoaHoc"] . "' ") > 0;
 $soHocVien = $Database->num_rows("SELECT * FROM dangkykhoahoc WHERE MaKhoaHoc = '" . $khoaHoc["MaKhoaHoc"] . "'  ");
 ?>
@@ -473,10 +464,3 @@ if ($checkDangKy) {
 
             });
         </script>
-
-        <?php
-        include_once(__DIR__ . "/../../public/client/menu_right.php");
-        include_once(__DIR__ . "/../../public/client/navigation_mobile.php");
-        ?>
-        <?php
-        require_once(__DIR__ . "/../../public/client/footer.php"); ?>
