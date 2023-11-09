@@ -19,10 +19,7 @@ $chat_room_id = $_GET['chat_room_id'];
 // check user
 
 
-$checkChatBotRoom = $Database->get_row("select * from chatbot_room where TaiKhoan = '" . $_SESSION["account"] . "' and MaRoom = '" . $chat_room_id . "' ");
-if ($checkChatBotRoom <= 0) {
-    throw new Exception("Vui lòng tạo room");
-}
+
 
 // Retrieve the data in ascending order by the id column
 $results = $Database->get_list("SELECT * FROM message_chatbot_room where MaRoom = '" . $chat_room_id . "' ORDER BY ThoiGian ASC");
