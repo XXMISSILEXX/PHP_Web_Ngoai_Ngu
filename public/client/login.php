@@ -67,8 +67,7 @@
                 $('#loading_modal').addClass("loading--open");
             },
             success: function(response) {
-                $("#thongbao").html(response);
-                $('#btnLogin').html('Đăng nhập').removeClass("disabled");
+                
                 $('#loading_modal').removeClass("loading--open");
             }
         });
