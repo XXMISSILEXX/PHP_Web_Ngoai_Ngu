@@ -7,6 +7,136 @@ $config = [
     'ip_server' => '',
 ];
 
+
+function checkLogin()
+{
+    global $Database;
+    if (!isset($_SESSION["account"])) {
+        return die('<script type="text/javascript">
+            setTimeout(function(){ location.href = "' . BASE_URL('Auth/DangNhap') . '" }, 0);
+            </script>
+            ');
+    } else {
+        checkAccountExist();
+        $row = $Database->get_row("SELECT * FROM `dangkykhoahoc` WHERE `TaiKhoan` = '" . $_SESSION["account"] . "'  ");
+        if (!$row) {
+            return die('<script type="text/javascript">
+                setTimeout(function(){ location.href = "' . BASE_URL('Page/KhoiTaoTaiKhoan') . '" }, 0);
+                </script>
+                ');
+        }
+    }
+}
+
+function checkAccountExist()
+{
+    global $Database;
+    if (isset($_SESSION["account"])) {
+        $row = $Database->get_row("SELECT * FROM `nguoidung` WHERE `TaiKhoan` = '" . $_SESSION["account"] . "'  ");
+        if (!$row) {
+            return die('<script type="text/javascript">
+                setTimeout(function(){ location.href = "' . BASE_URL('Auth/DangXuat') . '" }, 0);
+                </script>
+                ');
+        } else {
+            if ($row["TrangThai"] == 0) {
+                return die('<script type="text/javascript">toastr.error("Tài khoản đã bị cấm", "Lỗi hệ thống!");
+                setTimeout(function(){ location.href = "' . BASE_URL('Auth/DangXuat') . '" }, 1000);</script>');
+            }
+        }
+    }
+}
+
+
+function encrypt_decrypt($action, $string)
+{
+    $output = false;
+    $encrypt_method = "AES-256-CBC";
+    $secret_key = '566d7ca789ea4196909d2e703242fef5a00dc85d8fea7bee8733b31b4019f335'; // 32 characters
+    $secret_iv = 'ab55b36ebf363980d89d4e72434333cb'; // 16 characters
+    // hash
+    $key = hash('sha256', $secret_key);
+    // iv - encrypt method AES-256-CBC expects 16 bytes 
+    $iv = substr(hash('sha256', $secret_iv), 0, 16);
+    if ($action == 'encrypt') {
+        $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+        $output = base64_encode($output);
+    } else if ($action == 'decrypt') {
+        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+    }
+    return $output;
+}
+function hashString($plaintext)
+{
+    $cipher = "aes-256-ctr";
+    $key = '566d7ca789ea4196909d2e703242fef5a00dc85d8fea7bee8733b31b4019f335';
+    if (in_array($cipher, openssl_get_cipher_methods())) {
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $ciphertext = openssl_encrypt($plaintext, $cipher, $key, $options = 0, $iv, $tag);
+        return $ciphertext;
+    }
+    return null;
+}
+function unHashString($ciphertext)
+{
+    $cipher = "aes-256-ctr";
+    $key = '566d7ca789ea4196909d2e703242fef5a00dc85d8fea7bee8733b31b4019f335';
+    if (in_array($cipher, openssl_get_cipher_methods())) {
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $iv = openssl_random_pseudo_bytes($ivlen);
+        $original_plaintext = openssl_decrypt($ciphertext, $cipher, $key, $options = 0, $iv, $tag = null);
+        return $original_plaintext;
+    }
+    return null;
+}
+
+function stripUnicode($str)
+{
+    if (!$str) return false;
+    $unicode = array(
+        'a' => 'á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ',
+        'd' => 'đ',
+        'e' => 'é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ',
+        'i' => 'í|ì|ỉ|ĩ|ị',
+        'o' => 'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ',
+        'u' => 'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự',
+        'y' => 'ý|ỳ|ỷ|ỹ|ỵ',
+    );
+    foreach ($unicode as $nonUnicode => $uni)
+        $str = preg_replace("/($uni)/i", $nonUnicode, $str);
+    return $str;
+}
+
+function removeItemDuplicate($array, $key)
+{
+    $found = [];
+    foreach ($array as $index => [$key => $ref]) {
+        if (!isset($found[$ref])) {
+            $found[$ref] = $index;
+        } else {
+            unset($array[$index], $array[$found[$ref]]);
+        }
+    }
+    return $array;
+}
+function uniqueMultiArray($array, $key)
+{
+    // key = MaTuVung
+    $temp_array = array();
+    $i = 0;
+    $key_array = array();
+
+    foreach ($array as $val) {
+        if (!in_array($val[$key], $key_array)) {
+            $key_array[$i] = $val[$key];
+            $temp_array[$i] = $val;
+        }
+        $i++;
+    }
+    return $temp_array;
+}
+
 function checkRequireCapDo($capdo)
 {
     $result = 0;
@@ -77,7 +207,52 @@ function formatNumber($number)
 {
     return number_format($number, 0, '.', '.');
 }
+function updateCapDo()
+{
+    try {
 
+        global $Database;
+        if (isset($_SESSION["account"])) {
+            $taikhoan = $Database->get_row("SELECT * FROM `nguoidung` WHERE `TaiKhoan` = '" . $_SESSION["account"] . "' ");
+            if (!$taikhoan) {
+                throw new Exception("Không tồn tại tài khoản trong hệ thống");
+            }
+            $kinhnghiemhientai = $taikhoan["KinhNghiem"];
+            $capdo = $taikhoan["CapDo"];
+            while ($kinhnghiemhientai >= checkRequireCapDo($capdo + 1) && $capdo < 20) {
+                $Database->query("UPDATE `nguoidung` SET `KinhNghiem` = `KinhNghiem` - '" . checkRequireCapDo($capdo + 1) . "', `CapDo` = `CapDo` + 1  WHERE `TaiKhoan` = '" . $_SESSION["account"] . "' ");
+                $taikhoan = $Database->get_row("SELECT * FROM `nguoidung` WHERE `TaiKhoan` = '" . $_SESSION["account"] . "' ");
+                $kinhnghiemhientai =  $taikhoan["KinhNghiem"];
+                $capdo = $taikhoan["CapDo"];
+            }
+        }
+    } catch (Exception $err) {
+        return die('<script type="text/javascript">toastr.error("' . $err->getMessage() . '", "Lỗi hệ thống!");setTimeout(function(){ location.href = "' . BASE_URL('Auth/DangXuat') . '" }, 1000);</script>');
+    }
+}
+
+function sendCSM($mail_nhan, $ten_nhan, $chu_de, $noi_dung, $bcc)
+{
+    global $Database;
+    // PHPMailer Modify
+    $mail = new PHPMailer();
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = $Database->site("Email"); // GMAIL STMP
+    $mail->Password = $Database->site("PassEmail"); // PASS STMP 
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+    $mail->setFrom($Database->site('Email'), $bcc);
+    $mail->addAddress($mail_nhan, $ten_nhan);
+    $mail->addReplyTo($Database->site('Email'), $bcc);
+    $mail->isHTML(true);
+    $mail->Subject = $chu_de;
+    $mail->Body = $noi_dung;
+    $mail->CharSet = 'UTF-8';
+    $send = $mail->send();
+    return $send;
+}
 function BASE_URL($url)
 {
     global $config;
@@ -89,107 +264,4 @@ function BASE_URL($url)
         return $a;
     }
     return $a . '/' . $url;
-}
-function getTime()
-{
-    return date('Y-m-d H:i:s', time());
-}
-
-function xoaDauCach($text)
-{
-    return trim(preg_replace('/\s+/', '', $text));
-}
-
-function checkUsername($data)
-{
-    if (preg_match('/^[a-zA-Z0-9_-]{3,16}$/', $data, $matches)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-function checkEmail($data)
-{
-    if (preg_match('/^.+@.+$/', $data, $matches)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-function checkPhone($data)
-{
-    if (preg_match('/^\+?(\d.*){3,}$/', $data, $matches)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function encryptPassword($string)
-{
-    return md5($string);
-}
-function phantrang($url, $start, $total, $kmess)
-{
-    $out[] = '<nav aria-badge="Page navigation example"><ul class="pagination pagination-lg">';
-    $neighbors = 2;
-    if ($start >= $total) {
-        $start = max(0, $total - (($total % $kmess) == 0 ? $kmess : ($total % $kmess)));
-    } else {
-        $start = max(0, (int) $start - ((int) $start % (int) $kmess));
-    }
-
-    $base_link = '<li class="page-item"><a class="page-link" href="' . strtr($url, array('%' => '%%')) . 'page=%d' . '">%s</a></li>';
-    $out[] = $start == 0 ? '' : sprintf($base_link, $start / $kmess, '<i class="fas fa-angle-left"></i>');
-    if ($start > $kmess * $neighbors) {
-        $out[] = sprintf($base_link, 1, '1');
-    }
-
-    if ($start > $kmess * ($neighbors + 1)) {
-        $out[] = '<li class="page-item"><a class="page-link">...</a></li>';
-    }
-
-    for ($nCont = $neighbors; $nCont >= 1; $nCont--) {
-        if ($start >= $kmess * $nCont) {
-            $tmpStart = $start - $kmess * $nCont;
-            $out[] = sprintf($base_link, $tmpStart / $kmess + 1, $tmpStart / $kmess + 1);
-        }
-    }
-
-    $out[] = '<li class="page-item active"><a class="page-link">' . ($start / $kmess + 1) . '</a></li>';
-    $tmpMaxPages = (int) (($total - 1) / $kmess) * $kmess;
-    for ($nCont = 1; $nCont <= $neighbors; $nCont++) {
-        if ($start + $kmess * $nCont <= $tmpMaxPages) {
-            $tmpStart = $start + $kmess * $nCont;
-            $out[] = sprintf($base_link, $tmpStart / $kmess + 1, $tmpStart / $kmess + 1);
-        }
-    }
-
-    if ($start + $kmess * ($neighbors + 1) < $tmpMaxPages) {
-        $out[] = '<li class="page-item"><a class="page-link">...</a></li>';
-    }
-
-    if ($start + $kmess * $neighbors < $tmpMaxPages) {
-        $out[] = sprintf($base_link, $tmpMaxPages / $kmess + 1, $tmpMaxPages / $kmess + 1);
-    }
-
-    if ($start + $kmess < $total) {
-        $display_page = ($start + $kmess) > $total ? $total : ($start / $kmess + 2);
-        $out[] = sprintf($base_link, $display_page, '<i class="fas fa-angle-right"></i>');
-    }
-    $out[] = '</ul></nav>';
-    return implode('', $out);
-}
-
-function CheckAdmin()
-{
-    global $Database;
-    if (!isset($_SESSION["account"])) {
-        return die('<script type="text/javascript">setTimeout(function(){ location.href = "' . BASE_URL('/') . '" }, 0);</script>');
-    }
-    $taikhoan = $Database->get_row("SELECT * FROM `nguoidung` WHERE `TaiKhoan` = '" . $_SESSION["account"] . "' ");
-
-    if ($taikhoan["MaQuyenHan"] != 2) {
-        return die('<script type="text/javascript">setTimeout(function(){ location.href = "' . BASE_URL('/') . '" }, 0);</script>');
-    }
 }
