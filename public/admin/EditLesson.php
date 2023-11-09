@@ -14,6 +14,22 @@ if (isset($_GET['maBaiHoc']) && isset($_GET['maKhoaHoc'])) {
 } else {
     admin_msg_error("Liên kết không tồn tại", BASE_URL(''), 0);
 }
+
+
+if (isset($_POST['btnSave']) && $row) {
+    if (empty($_POST['tenBaiHoc']) || empty($_POST['trangThai'])) {
+        admin_msg_error("Vui lòng nhập đầy đủ thông tin", "", 500);
+    }
+    $tenBaiHoc = ($_POST['tenBaiHoc']);
+    $trangThai = check_string($_POST['trangThai']);
+
+    $Database->update("baihoc", array(
+        'TenBaiHoc' => $tenBaiHoc,
+        'TrangThaiBaiHoc'         => $trangThai
+
+    ), " `MaKhoaHoc` = '" . $row['MaKhoaHoc'] . "' and `MaBaiHoc` = '" . $row['MaBaiHoc'] . "'  ");
+    admin_msg_success("Thay đổi thành công", "", 1000);
+}
 ?>
 
 <div class="content-wrapper">
