@@ -137,3 +137,19 @@ $Database = new Database();
 
 define('BASE_URL', $Database->site('BASE_URL'));
 
+
+require_once(__DIR__ . "/../class/Study.php");
+$Study = new Study();
+
+require_once(__DIR__ . "/../class/Course.php");
+$Course = new Course();
+
+require_once(__DIR__ . "/../class/HoatDong.php");
+$HoatDong = new HoatDong();
+
+require_once(__DIR__ . "/../class/User.php");
+$User = new User();
+
+require_once(__DIR__ . "/../class/Pagination.php");
+
+require_once(__DIR__ . "/../vendor/autoload.php");
