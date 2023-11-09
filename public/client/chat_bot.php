@@ -278,26 +278,6 @@ $getTaiKhoan = $Database->get_row("select * from nguoidung where TaiKhoan = '" .
                     return str;
 
                 }
-
-                function appendMessage(role, anhDaiDien, tenHienThi, noiDung, thoiGian, id) {
-                    let data = ``;
-                    data = `<div class="chatbot ${role === "user" ? "right" : "left"}">
-                                <img src="${role === "user" ? anhDaiDien  : "<?= BASE_URL("assets/img/logo.png") ?>"}" alt="" class="chatbot-avata ${role === "user" ? "right" : "left"}">
-                                <div class="chatbot-content card">
-                                    <div class="chatbot-content-wrap">
-                                        <div class="chatbot-name">${role === "user" ? tenHienThi  : "Group 2"}</div>
-                                        <div class="chatbot-paragraph" id=${id}>${noiDung}</div>
-                                        <div class="chatbot-time">${thoiGian}</div>
-                                    </div>
-                                </div>
-                            </div>`;
-
-                    $("#chat_content").append(data);
-                    scrollToBottom();
-
-
-                }
-
                 function scrollToBottom() {
                     var elem = document.getElementById('chat_content');
                     elem.scrollTop = elem.scrollHeight;
