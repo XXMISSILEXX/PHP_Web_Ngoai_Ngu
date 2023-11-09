@@ -4,9 +4,9 @@ require_once(__DIR__ . "/../../configs/function.php");
 require_once(__DIR__ . "/../../vendor/google-api/vendor/autoload.php");
 
 $title = 'Đăng ký tài khoản | ' . $Database->site("TenWeb");
-$META_TITLE = "5Fs Group - Đăng ký tài khoản";
+$META_TITLE = "Group 2 - Đăng ký tài khoản";
 $META_IMAGE = "https://i.imgur.com/sIxDQqF.png";
-$META_DESCRIPTION = "5Fs Group - Đăng ký tài khoản";
+$META_DESCRIPTION = "Group 2 - Đăng ký tài khoản";
 $META_SITE = BASE_URL("Auth/DangKy");
 
 require_once(__DIR__ . "/../../public/client/header.php");
@@ -81,7 +81,35 @@ $loginFacebookUrl = $helper->getLoginUrl(FACEBOOK_APP_CALLBACK_URL, $permissions
         </form>
     </div>
 </div>
-
+<script src="<?= BASE_URL("/") ?>/assets/javascript/show-password.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#form").submit(function(e) {
+            e.preventDefault();
+        });
+    });
+    $("#btnSignup").on("click", function() {
+        $.ajax({
+            url: "<?= BASE_URL("assets/ajaxs/Auth.php"); ?>",
+            method: "POST",
+            data: {
+                type: 'signup',
+                account: $("#account").val().trim(),
+                tenHienThi: $("#tenHienThi").val().trim(),
+                password: $("#password").val().trim()
+            },
+            beforeSend: function() {
+                $('#btnSignup').html('Đang xử lý').addClass("disabled");
+                $('#loading_modal').addClass("loading--open");
+            },
+            success: function(response) {
+                $("#thongbao").html(response);
+                $('#btnSignup').html('Tạo tài khoản').removeClass("disabled");
+                $('#loading_modal').removeClass("loading--open");
+            }
+        });
+    });
+</script>
 <?php
 require_once(__DIR__ . "/../../public/client/footer.php");
 ?>
