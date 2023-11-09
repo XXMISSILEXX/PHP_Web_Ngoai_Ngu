@@ -10,10 +10,7 @@
             <a href="<?= BASE_URL("/") ?>">
                 <h2 class="header__name"><?= $Database->site("TenWeb") ?></h2>
             </a>
-            <div class="nav">
-                <a href="" class="nav__course">Các khóa học</a>
-                <a href="<?= BASE_URL("Auth/DangNhap") ?>" class="nav__statr btn">Bắt đầu học</a>
-            </div>
+           
         </div>
     </div>
 </div>
