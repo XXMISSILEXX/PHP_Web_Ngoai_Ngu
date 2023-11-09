@@ -31,10 +31,6 @@
             <button type="submit" id="btnLogin" class="form__login btn">ĐĂNG NHẬP</button>
             <span class="form__separate-text">HOẶC</span>
             <div class="form__separate"></div>
-            <div class="wrap-social">
-                <a href="<?= $loginFacebookUrl  ?>" class="social__item"><img src="<?= BASE_URL("/") ?>/assets/img/facebook.svg" alt="" class="social__item-img"><span class="social__item-text">FACEBOOK</span></a>
-                <a href=<?= $client->createAuthUrl() ?> class="social__item"><img src="<?= BASE_URL("/") ?>/assets/img/google.svg" alt="" class="social__item-img"><span class="social__item-text">GOOGLE</span></a>
-            </div>
             <div class="form__not-account">
                 Chưa có tài khoản? <a href="<?= BASE_URL("Auth/DangKy") ?>" class="form__not-account-link">Đăng kí ngay</a>
             </div>
