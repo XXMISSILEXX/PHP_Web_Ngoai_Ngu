@@ -186,15 +186,7 @@ if (isset($_GET['maBaiHoc']) && isset($_GET['maKhoaHoc']) && isset($_GET['maTuVu
                                                 <?=$row["MaTuVung"]?>
 
                                             </option>
-                                            <?php
-foreach ($Database->get_list(" select * from tuvung where MaKhoaHoc = '" . $row['MaKhoaHoc'] . "' and  MaBaiHoc = '" . $row['MaBaiHoc'] . "'  order by MaTuVung asc") as $optionTuVung) {
-
-    ?>
-                                                <option value="<?=$optionTuVung["MaTuVung"]?>"><?=$optionTuVung["MaTuVung"]?></option>
-                                            <?php
-}
-?>
-
+                                            
                                         </select>
                                     </div>
                                 </div>
