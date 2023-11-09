@@ -51,10 +51,5 @@
         } else {
             checkAccountExist();
             updateCapDo();
-        ?>
-
-
-
-        <?php
         }
         ?>
