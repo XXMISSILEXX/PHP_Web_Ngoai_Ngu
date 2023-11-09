@@ -184,9 +184,7 @@ if (isset($_GET['maBaiHoc']) && isset($_GET['maKhoaHoc']) && isset($_GET['maTuVu
                                         <select class="custom-select" name="maTuVung" disabled>
                                             <option value="<?=$row['MaTuVung'];?>" selected="selected">
                                                 <?=$row["MaTuVung"]?>
-
                                             </option>
-                                            
                                         </select>
                                     </div>
                                 </div>
