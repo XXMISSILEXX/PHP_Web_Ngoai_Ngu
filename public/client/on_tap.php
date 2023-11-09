@@ -20,20 +20,6 @@ if (isset($_GET['maKhoaHoc']) && isset($_GET['maBaiHoc'])) {
     }
 }
 
-
-// Tao moi database hoc tu moi
-$token = randomString('0123456789QWERTYUIOPASDGHJKLZXCVBNM', '20');
-$createDatabase = $Database->insert("ontaptuvung", [
-    'TaiKhoan' => $_SESSION["account"],
-    'Token' => $token,
-]);
-if ($createDatabase) {
-    $_SESSION["thongTinTokenPractice"] = $token;
-} else {
-    msg_error2('Có lỗi xảy ra trong quá trình khởi tạo.');
-}
-
-
 ?>
 <style>
     <?= include_once(__DIR__ . "/../../assets/css/review.css");
