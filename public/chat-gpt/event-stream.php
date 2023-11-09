@@ -33,9 +33,6 @@ foreach ($results as $item) {
 
 // get latest message of user
 $results = $Database->get_row("SELECT * FROM message_chatbot_room where MaRoom = '" . $chat_room_id . "' and Role = 'user' ORDER BY ThoiGian desc limit 1");
-if ($results > 0) {
-    $history[] = [ROLE => $results["Role"], CONTENT => $results['NoiDung']];
-}
 
 
 $opts = [
