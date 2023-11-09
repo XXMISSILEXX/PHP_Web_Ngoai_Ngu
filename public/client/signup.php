@@ -81,35 +81,7 @@ $loginFacebookUrl = $helper->getLoginUrl(FACEBOOK_APP_CALLBACK_URL, $permissions
         </form>
     </div>
 </div>
-<script src="<?= BASE_URL("/") ?>/assets/javascript/show-password.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#form").submit(function(e) {
-            e.preventDefault();
-        });
-    });
-    $("#btnSignup").on("click", function() {
-        $.ajax({
-            url: "<?= BASE_URL("assets/ajaxs/Auth.php"); ?>",
-            method: "POST",
-            data: {
-                type: 'signup',
-                account: $("#account").val().trim(),
-                tenHienThi: $("#tenHienThi").val().trim(),
-                password: $("#password").val().trim()
-            },
-            beforeSend: function() {
-                $('#btnSignup').html('Đang xử lý').addClass("disabled");
-                $('#loading_modal').addClass("loading--open");
-            },
-            success: function(response) {
-                $("#thongbao").html(response);
-                $('#btnSignup').html('Tạo tài khoản').removeClass("disabled");
-                $('#loading_modal').removeClass("loading--open");
-            }
-        });
-    });
-</script>
+
 <?php
 require_once(__DIR__ . "/../../public/client/footer.php");
 ?>
