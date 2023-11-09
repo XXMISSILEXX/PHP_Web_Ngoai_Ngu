@@ -91,8 +91,7 @@ require_once(__DIR__ . "/../../configs/function.php");
                                         <tr>
                                             <td><?= $i++; ?></td>
                                             <td><a href="<?= BASE_URL('admin/users/edit/'); ?><?= $row['TaiKhoan']; ?>"><?= $row['TaiKhoan']; ?></a></td>
-                                            <td><?= $row['MaTinNhan']; ?></td>
-                                            <td><?= $row['MaRoom']; ?></td>
+                                            
                                             <td><?= $row['NoiDung']; ?></td>
 
                                             <td><span class="badge badge-dark px-3"><?= $row['ThoiGian']; ?></span></td>
