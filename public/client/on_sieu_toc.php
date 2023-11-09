@@ -157,25 +157,6 @@ if (isset($_GET['maKhoaHoc']) && isset($_GET['maBaiHoc'])) {
         })
     };
 
-    function danhDauTuKhoOnTap(token) {
-        $.ajax({
-            url: "<?= BASE_URL("assets/ajaxs/Study.php"); ?>",
-            method: "POST",
-            data: {
-                type: 'DanhDauTuKhoOnTap',
-                token: token,
-            },
-            beforeSend: function() {
-                $('#loading_modal').addClass("loading--open");
-            },
-            success: function(response) {
-                let json = $.parseJSON(response);
-                $('#loading_modal').removeClass("loading--open");
-                $("#thongbao").empty().append(json.message);
-            }
-        })
-    }
-
 
 
     $(document).ready(function() {
