@@ -8,6 +8,17 @@ require_once(__DIR__ . "/Sidebar.php");
 
 
 
+<?php
+if (isset($_GET['id'])) {
+    $row = $Database->get_row(" SELECT * FROM `khoahoc` WHERE `MaKhoaHoc` = '" . check_string($_GET['id']) . "'  ");
+    if (!$row) {
+        admin_msg_error("Khóa học này không tồn tại", BASE_URL(''), 500);
+    }
+} else {
+    admin_msg_error("Liên kết không tồn tại", BASE_URL(''), 0);
+}
+?>
+
 <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -69,14 +80,7 @@ require_once(__DIR__ . "/Sidebar.php");
                                 <div class="col-sm-10">
                                     <select class="custom-select" name="trangThai">
                                         <option value="<?= $row['TrangThaiKhoaHoc']; ?>">
-                                            <?php
-                                            if ($row['TrangThaiKhoaHoc'] == "1") {
-                                                echo 'Hoạt động';
-                                            }
-                                            if ($row['TrangThaiKhoaHoc'] == "0") {
-                                                echo 'Banned';
-                                            }
-                                            ?>
+                                            
                                         </option>
                                         <option value="1">Hoạt động</option>
                                         <option value="0">Banned</option>
