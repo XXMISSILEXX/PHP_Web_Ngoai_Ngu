@@ -13,7 +13,7 @@ $muctieuhoctap = $Database->get_row("SELECT * FROM `muctieuhoctap` WHERE `MaMucT
 $currentDate = date("Y-m-d");
 $soluongtudahoc = $Database->get_row(" SELECT count(*) as SoLuongTuDaHoc FROM hoctuvung WHERE `TaiKhoan`  = '" . $_SESSION["account"] . "' AND  DATE(THOIGIAN) = '" . $currentDate . "'  ");
 $tientrinh_muctieuhoctap = floor($soluongtudahoc["SoLuongTuDaHoc"] / $muctieuhoctap["SoLuongTuMoi"] * 100);
-/**/
+
 ?>
 <style>
     <?= include_once(__DIR__ . "/../../assets/css/menu_right.css");
