@@ -7,18 +7,11 @@
     ?>
 </script>
 <?php
-
-
 if (!isset($_SESSION["account"])) {
 ?>
-
-
 <?php
 } else {
 ?>
-
-
-
 <?php
 }
 ?>
