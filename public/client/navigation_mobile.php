@@ -22,7 +22,7 @@ $checkQuyenHan = $Database->get_row("select * from nguoidung where TaiKhoan = '"
         <?php
         if ($checkQuyenHan["MaQuyenHan"] >= 2) {
         ?>
-
+/**/
             <li class="nav__item">
                 <a href="<?= BASE_URL("admin/home") ?>" class="nav__item-link <?= ($locationPage == "admin_page") ? "nav__item-link--chose" : ""  ?>"><img src="https://i.imgur.com/sA8BWyZ.png" alt="" class="nav__item-img"><span class="nav__item-text">ADMIN</span></a>
             </li>
