@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . "/../../configs/config.php");
 require_once(__DIR__ . "/../../configs/function.php");
-$title = 'Chỉnh sửa trang cá nhân | ' . $Database->site("TenWeb") . '';
+$title = 'Chỉnh sửa trang cáaa nhân | ' . $Database->site("TenWeb") . '';
 $locationPage = 'setting_page';
 require_once(__DIR__ . "/../../public/client/header.php");
 
