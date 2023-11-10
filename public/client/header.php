@@ -43,7 +43,6 @@
     <link rel="stylesheet" href="<?= BASE_URL("/") ?>/assets/css/modal.css?id=<?= rand(0, 1000000) ?>">
     <link rel="stylesheet" href="<?= BASE_URL("/") ?>/assets/css/loading.css?id=<?= rand(0, 1000000) ?>">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
 </head>
 
 <body>
