@@ -5,7 +5,7 @@
 <?php
 $checkQuyenHan = $Database->get_row("select * from nguoidung where TaiKhoan = '" . $_SESSION["account"] . "' ");
 ?>
-
+/**/
 <div class="nav">
     <div class="nav__heading"><a href="<?= BASE_URL("/") ?>"><?= $Database->site('TenWeb') ?></a></div>
     <div class="nav__heading-logo"><img src="<?= BASE_URL("/") ?>/assets/img/logo.png" /></div>
