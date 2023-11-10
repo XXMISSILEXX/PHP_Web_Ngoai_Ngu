@@ -4,7 +4,6 @@ require_once(__DIR__ . "/../../configs/function.php");
 $title = 'Bảng xếp hạng | ' . $Database->site('TenWeb') . '';
 $locationPage = 'home_page';
 require_once(__DIR__ . "/../../public/client/header.php");
-/**/
 checkLogin();
 if (!empty($_GET["type"])) {
     $type = check_string($_GET["type"]);
