@@ -1072,7 +1072,7 @@ function timeAgo($time_ago)
 }
 
 /**
- * Kiểm tra xem người dùng có phải là admin hay không.
+ * Kiểm tra xem người dùng có phải là admin (quyền admin) hay không?
  *
  * @throws \Exception nếu người dùng chưa đăng nhập hoặc không phải là admin.
  * @return void
@@ -1081,11 +1081,18 @@ function CheckAdmin()
 {
     global $Database;
     if (!isset($_SESSION["account"])) {
+        // Chưa khởi tạo biến $_SESSION["account"]
+        // chuyển hướng người dùng về trang chủ của website: BASE_URL('/')
         return die('<script type="text/javascript">setTimeout(function(){ location.href = "' . BASE_URL('/') . '" }, 0);</script>');
     }
+
+    // Lấy thông tin taikhoan từ DB
     $taikhoan = $Database->get_row("SELECT * FROM `nguoidung` WHERE `TaiKhoan` = '" . $_SESSION["account"] . "' ");
 
+    // Kiểm tra quyền hạn của tài khoản có phải là admin hay không?
     if ($taikhoan["MaQuyenHan"] != 2) {
+        // Không phải admin
+        // chuyển hướng người dùng về trang chủ của website: BASE_URL('/')
         return die('<script type="text/javascript">setTimeout(function(){ location.href = "' . BASE_URL('/') . '" }, 0);</script>');
     }
 }
