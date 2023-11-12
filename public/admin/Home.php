@@ -1,4 +1,15 @@
+<?php
+// import configs dùng chung
+require_once(__DIR__ . "/../../configs/config.php");
+require_once(__DIR__ . "/../../configs/function.php");
 
+$title = 'DASHBOARD ADMIN';
+
+// import các component layout
+require_once(__DIR__ . "/Header.php");
+require_once(__DIR__ . "/Sidebar.php");
+
+?>
 
 
 <div class="content-wrapper">
@@ -84,3 +95,6 @@
     });
 </script>
 
+<?php
+require_once(__DIR__ . "/Footer.php");
+?>
