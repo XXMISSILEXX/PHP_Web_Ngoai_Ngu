@@ -17,7 +17,7 @@ require_once __DIR__ . "/Sidebar.php";
 if (isset($_GET["delete_danh_gia"])) {
     $getTaiKhoan = $_GET["taiKhoan"];
     $getKhoaHoc = $_GET["khoaHoc"];
-    $Database->query("delete from danhgiakhoahoc where TaiKhoan = '" . $getTaiKhoan . "' and MaKhoaHoc = '" . $getKhoaHoc . "' ");
+    $Database->query("DELETE FROM danhgiakhoahoc WHERE TaiKhoan = '" . $getTaiKhoan . "' AND MaKhoaHoc = '" . $getKhoaHoc . "' ");
     admin_msg_success("Xóa thành công", "courses", 1000);
 }
 
@@ -79,7 +79,7 @@ if (isset($_POST['btnThemKhoaHoc'])) {
                             <table id="datatable_khoahoc" class="table table-bordered table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>STT</th>
+                                        <th title="Số thứ tự">STT</th>
                                         <th>Mã khóa học</th>
                                         <th>Tên khóa học</th>
                                         <th>Ảnh khóa học</th>
@@ -87,7 +87,7 @@ if (isset($_POST['btnThemKhoaHoc'])) {
                                         <th>Người tạo</th>
                                         <th>Ngày tạo</th>
                                         <th>Trạng thái</th>
-                                        <th>ACTION</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,8 +125,9 @@ foreach ($Database->get_list(" SELECT * FROM khoahoc ORDER BY MaKhoaHoc ASC ") a
 
                                             <!-- ACTION -->
                                             <td>
-                                                <a type="button" href="<?=BASE_URL('admin/courses/edit/');?><?=$row['MaKhoaHoc'];?>" class="btn btn-primary"><i class="fas fa-edit"></i>
-                                                    <span>EDIT</span></a>
+                                                <a style="color: white; display: block;" href="<?=BASE_URL('admin/courses/edit/');?><?=$row['MaKhoaHoc'];?>" class="btn btn-primary">
+                                                    <i class="fas fa-edit"></i><span>Sửa</span>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php }?>
@@ -162,10 +163,13 @@ foreach ($Database->get_list(" SELECT * FROM khoahoc ORDER BY MaKhoaHoc ASC ") a
                             <!-- Ảnh khóa học -->
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label">Link ảnh khóa học</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-6">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" id="inputEmail3" name="linkAnhKhoaHoc" value="">
+                                        <input type="text" class="form-control" id="hinhAnh" name="linkAnhKhoaHoc" value="">
                                     </div>
+                                </div>
+                                <div class="col-sm-2">
+                                <div class="btn btn-primary btn-block waves-effect" id="uploadHinhAnh">Chọn ảnh</div>
                                 </div>
                             </div>
                             <!-- Mô tả khóa học -->
@@ -202,13 +206,13 @@ foreach ($Database->get_list(" SELECT * FROM khoahoc ORDER BY MaKhoaHoc ASC ") a
                             <table id="datatable_danhgiakhoahoc" class="table table-bordered table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>STT</th>
+                                        <th title="Số thứ tự">STT</th>
                                         <th>Tài khoản</th>
                                         <th>Khóa học</th>
                                         <th>Nội dung</th>
-                                        <th>Rating</th>
+                                        <th>Biểu cảm</th>
                                         <th>Thời gian</th>
-                                        <th>ACTION</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -223,16 +227,43 @@ foreach ($Database->get_list(" SELECT * FROM danhgiakhoahoc A inner join khoahoc
                                             <td><a href="<?=BASE_URL('admin/users/edit/');?><?=$row['TaiKhoan'];?>"><?=$row['TaiKhoan'];?></a></td>
                                             <td><?=$row['TenKhoaHoc'];?></td>
                                             <td><?=$row['NoiDungDanhGia'];?></td>
-                                            <td><?=$row['Rating'];?></td>
+
+                                            <?php
+// Rating
+    $rating = $row['Rating'];
+
+    // Chuyển thành icon
+    switch ($rating) {
+        case 1:
+            $icon = "Like-icon";
+            break;
+        case 2:
+            $icon = "Heart-icon";
+            break;
+        case 3:
+            $icon = "Smile-icon";
+            break;
+        case 4:
+            $icon = "Sad-icon";
+            break;
+        case 5:
+            $icon = "Angry-icon";
+            break;
+    }
+    // Đường dẫn đến icon
+    $icon = BASE_URL("/") . "/assets/img/" . $icon . ".svg";
+    ?>
+                                            <td><img src="<?=$icon;?>" style="width: 40px; height: 40px; object-fit: cover;"/></td>
                                             <td><span class="badge badge-dark px-3"><?=$row['ThoiGian'];?></span></td>
                                             <td>
-                                                <a type="button" href="?delete_danh_gia&taiKhoan=<?=$row['TaiKhoan'];?>&khoaHoc=<?=$row['MaKhoaHoc'];?>" class="btn btn-primary"><i class="fas fa-trash"></i>
-                                                    <span>Delete</span></a>
+                                                <a style="color: white; display: block;" onclick="confirmDelete('<?=$row['TaiKhoan'];?>', '<?=$row['MaKhoaHoc'];?>', '<?=$row['TenKhoaHoc'];?>', '<?=$row['NoiDungDanhGia'];?>');" class="btn btn-primary">
+                                                <i class="fas fa-trash"></i>
+                                                    <span>Xóa</span>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php }?>
                                 </tbody>
-
                             </table>
                         </div>
                     </div>
@@ -264,6 +295,50 @@ foreach ($Database->get_list(" SELECT * FROM danhgiakhoahoc A inner join khoahoc
             "autoWidth": false,
         });
     });
+
+    /**
+     * Xử lý upload file lên cloudinary
+     */
+    $(function() {
+        // Khởi tạo widget hình ảnh
+        let myWidgetHinhAnh = cloudinary.createUploadWidget({
+            cloudName: 'diih7pze7', /* tên cloudinary account */
+            uploadPreset: 'zdug8flf', /* preset sẽ quyết định cách xử lý upload */
+            folder: 'hinhanh', /* chỉ định folder lưu trữ. (nếu chưa có sẽ tự động tạo). */
+        }, (error, result) => {
+            // Tải lên thành công, không bị lỗi
+            if (!error && result && result.event === "success") {
+                console.log('Done! Here is the image info: ', result.info);
+                $("#hinhAnh").val(result.info.url);
+            }
+        })
+
+        // Thêm sự kiện click cho button uploadHinhAnh
+        document.getElementById("uploadHinhAnh").addEventListener("click", function() {
+            console.log(myWidgetHinhAnh.open());
+        }, false);
+    })
+
+    /**
+     * Xóa đánh giá khóa học của người học
+     * @param {*} taiKhoan - tên tài khoản người dùng
+     * @param {*} tenKhoaHoc - tên khóa học cần xóa
+     * @param {*} maKhoaHoc - mã khóa học
+     */
+    function confirmDelete(taiKhoan, maKhoaHoc, tenKhoaHoc, noiDungDanhGia) {
+        // Tạo popup bằng thư viện SweetAlert2
+        Swal.fire({
+            title: 'Bạn có thực sự muốn xóa đánh giá: "' + noiDungDanhGia + '" của người dùng "' + taiKhoan + '" trong khóa học "' + tenKhoaHoc + '" không?',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Nếu người dùng chọn Xóa
+                window.location.href = `?delete_danh_gia&taiKhoan=${taiKhoan}&khoaHoc=${maKhoaHoc}`;
+            }
+        });
+    }
 </script>
 
 <?php

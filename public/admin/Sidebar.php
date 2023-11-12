@@ -7,14 +7,16 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
+
+                <!-- Page location -->
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="<?=BASE_URL('admin/home');?>" class="nav-link">HOME</a>
                 </li>
 
-
             </ul>
         </nav>
         <!-- /.navbar -->
+
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
